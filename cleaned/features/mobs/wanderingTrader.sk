@@ -1,0 +1,15 @@
+
+
+
+on spawn of wandering trader:
+	if chance of 50%:
+		cancel event
+		
+		set {_first} to random integer from 32 and 64
+		set {_second} to random integer from 1 and 4
+		set {_third} to random integer from 4 and 8
+		
+		set {_nbt} to nbt from "{Offers:{Recipes:[{maxUses:1,buy:{id:emerald_block,Count:%{_first}%},sell:{id:trident,Count:1}},{maxUses:2,buy:{id:diamond,Count:%{_second}%},sell:{id:shulker_shell,Count:1}},{maxUses:4,buy:{id:iron_ingot,Count:%{_third}%},sell:{id:potion,Count:1,tag:{CustomPotionColor:16757025,display:{Name:[{""text"":""Haste II"",""italic"":false,""color"":""gold""}]},HideFlags:6,CustomPotionEffects:[{Id:3,Duration:3600,Amplifier:1}]}}}]}}"
+		
+		spawn wandering trader at event-entity with nbt {_nbt}
+	

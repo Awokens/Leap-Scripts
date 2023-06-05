@@ -1,0 +1,11 @@
+options:
+    nether: location(0.5, 1.5, 0.5, world("world_nether"))
+    world: location(0.5, -63, 0.5, world("world"))
+
+on player portal:
+	cancel event
+	wait 1 tick
+	if event-world is "world_nether":
+		teleport player to {@world}
+	else:
+		teleport player to {@nether}

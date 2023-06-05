@@ -1,0 +1,27 @@
+		
+command /kit:
+	permission: *
+	trigger:
+		set {_first} to random integer from 2 to 8
+		set {_second} to random integer from 4 to 16
+		set {_third} to random integer from 4 to 16
+		set {_fourth} to random integer from 4 to 16
+	
+		set {_nbt} to nbt from "{Items:[{Count:%{_first}%b,id:""minecraft:nautilus_shell""},{Count:%{_second}%b,id:""minecraft:oak_planks""},{Count:%{_third}%b,id:""minecraft:cobblestone""},{Count:%{_fourth}%b,id:""minecraft:dirt""}]}"
+	
+		set {_bundle} to bundle with nbt {_nbt}
+	
+		set {_rod} to fishing rod
+		set {_max} to max durability of {_rod}
+		set durability of {_rod} to random integer from ({_max} / 2) to 0
+	
+		set {_pickaxe} to stone pickaxe
+		set {_max} to max durability of {_pickaxe}
+		set durability of {_pickaxe} to random integer from ({_max} / 2) to 0
+	
+		set {_axe} to stone axe
+		set {_max} to max durability of {_axe}
+		set durability of {_axe} to random integer from ({_max} / 2) to 0
+	
+		give player {_rod}, {_bundle}, {_pickaxe} and {_axe}
+		

@@ -1,0 +1,72 @@
+
+on leaves decay:
+	if chance of 0.5%:
+		drop apple at event-block
+
+on spawn of bat:
+	cancel event
+
+on death of player:
+    if chance of 1%:
+        drop skull of victim at victim
+
+on death of wandering trader:
+    drop emerald at victim
+
+on spawn of enderman:
+    chance of 1%
+    cancel event
+    spawn enderman at event-entity with nbt (nbt compound from "{carriedBlockState:{Properties:{snowy:""false""},Name:grass_block}}")
+
+on pickup:
+	if {antiPickUp::%player's uuid%} ? false is true:
+		cancel event
+
+on drop:
+	if {antiDrop::%player's uuid%} ? true is true:
+		cancel event
+		send "&cAnti drop is on, do /antidrop to disable"
+
+on right click on villager:
+	if profession of clicked entity is librarian profession, toolsmith profession, weaponsmith profession or armorer profession:
+		cancel event
+		set profession of clicked entity to none profession
+
+on left click with crafting table:
+	open crafting table to player
+
+on right click on mud with water bottle:
+	remove 1 of water bottle from player's inventory
+	wait 1 tick
+	give player empty bottle
+	set event-block to sand
+	play sound "minecraft:item.bottle.empty" at player
+	
+on right click on dirt with bonemeal:
+	cancel event
+	remove 1 of held item from player's held item
+	set event-block to moss block
+	apply bonemeal effect to event-block
+	
+on break of stone:
+	set {_i} to fortune level of held item + 1
+	set {_i} to {_i} * 20
+	if chance of {_i}%:
+		cancel drops
+		drop iron nugget at event-block
+		spawn 3 xp at event-block
+
+on place:
+	event-world is "world"
+	if y-coord of event-block > -63:
+		distance between event-block and location(0.5, -64, 0.5, world("world")) < 5
+		wait 5 seconds
+		break event-block naturally using air
+	
+	if y-coord of event-block >= 0:
+		cancel event
+		send "&cUse redstone to go beyond this limit"
+
+	
+	
+        

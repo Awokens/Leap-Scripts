@@ -1,0 +1,18 @@
+on right click on lightning rod with copper ingot:
+	
+	set {_b} to location of event-block
+	loop 64 times:
+		add 1 to y-coord of {_b}
+		if block at {_b} isn't air:
+			exit
+
+	weather is rain or thunder
+	remove 1 of copper ingot from player's inventory
+	strike lightning at event-block
+	loop blocks in radius 3 of event-block:
+		if loop-block is event-block:
+			continue
+		if loop-block isn't blackstone:
+			continue
+		if block above loop-block is air:
+			set block above loop-block to fire

@@ -1,0 +1,9 @@
+
+on death of skeleton:
+	event-damagecause is fire
+	block below victim is blackstone
+	if chance of 15%:
+		cancel drops of items
+		spawn blaze at victim
+		show huge explosion at victim
+		play sound "minecraft:entity.wither.spawn" at volume 0.5 at victim

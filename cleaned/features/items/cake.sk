@@ -1,0 +1,3 @@
+on break of cake[bites=0]:
+	if held item is enchanted with silk touch:
+		drop cake at event-block

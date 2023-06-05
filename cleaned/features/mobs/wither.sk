@@ -1,0 +1,21 @@
+on death of wither:
+	cancel drops of items
+	set {_level} to looting level of attacker's held item
+	set {_amount} to random integer from 0 and {_i} + 1
+	drop {_amount} of netherite scrap at victim
+	spawn 100 xp at victim
+	
+
+on damage of player:
+	attacker is a mob
+	set metadata tag "lastDamageCauseByEntityType" of victim to type of attacker
+
+on item damage:
+	
+	set {_entityCause} to metadata tag "lastDamageCauseByEntityType" of player
+	
+	{_entityCause} is a mob
+	
+	if {_entityCause} is wither:
+		# do stuff later
+		# reminder to do it later!

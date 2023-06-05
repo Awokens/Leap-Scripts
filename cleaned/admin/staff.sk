@@ -1,0 +1,25 @@
+command /gmsp:
+	permission: staff.gamemode.spectator
+	trigger:
+		set player's gamemode to spectator
+		send "Set gamemode to %player's gamemode%"
+
+command /gms:
+	permission: staff.gamemode.survival
+	trigger:
+		set player's gamemode to survival
+		send "Set gamemode to %player's gamemode%"
+		
+command /teleport <player> [<player>]:
+	aliases: /tp
+	permission: staff.teleport
+	usage: /tp <player> [<player>]
+	trigger:
+		
+		if arg-2 is set:
+			teleport arg-1 to arg-2
+			send "Teleport %arg-1% to %arg-2%"
+		else:
+			teleport player to arg-1
+			send "Teleport you to %arg-1%"
+		
