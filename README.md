@@ -1,7 +1,7 @@
 
 ## **About**
 
-This repository is the source code to the void survival server called Leap, hosted on Minehut. The project is based in Skript, with a few plugins.
+This repository contains the source code for Leap, a void survival server hosted on Minehut. The project primarily utilizes Skript, along with a few additional plugins.
 
 ### Plugins
 * [DiSky](https://github.com/DiSkyOrg/DiSky/releases)
