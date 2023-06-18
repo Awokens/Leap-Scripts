@@ -1,0 +1,48 @@
+every minute:
+	if {mapResetTime} isn't a date:
+		set {mapResetTime} to now
+	
+	set {_diff} to difference between {mapResetTime} and now
+	if {_diff} >= 2 days:
+		send "", "&c&lMAP RESET TIME", "" and "&7ping pong Awokens to confirm map reset" and "" to players
+		set {mapResetTime} to now
+		
+
+	
+on place:
+	event-world is "world"
+	if player's gamemode is creative:
+		exit
+	if y-coord of event-block > -63:
+		distance between event-block and location(0.5, -64, 0.5, world("world")) < 5
+		wait 5 seconds
+		break event-block naturally using netherite pickaxe
+		show cloud at event-block
+	
+	if y-coord of event-block >= 0:
+		cancel event
+		send "&cUse redstone to go beyond this limit"
+
+
+command /whenismapreset:
+	trigger:
+		send "", "Map resets every 2 days (%difference between 2 days from {mapResetTime} and now%)", and ""
+
+command /mapreset <number>:
+	usage: &c:)
+	permission: *
+	trigger:
+		if arg-1 isn't 123456:
+			exit
+		if player isn't "Awokens":
+			exit
+		
+		execute console command "//world world"
+		execute console command "//pos1 176,-64,176"
+		execute console command "//pos2 -176,0,-176"
+		
+		execute console command "//replace !bedrock air"
+		clear entities
+		wait 3 seconds
+		
+		teleport players to location(0.5, -63, 0.5, world("world"))

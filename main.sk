@@ -1,0 +1,127 @@
+options:
+	spawn: location(0.5, -63, 0.5, world("world"), 90, 0)
+	
+on respawn:
+	if bed of player isn't set:
+		teleport player to {@spawn}
+	
+	
+on join:
+	if player hasn't played before:
+		wait 1 tick
+		teleport player to {@spawn}
+		set {_first} to random integer from 2 to 8
+		set {_second} to random integer from 4 to 16
+		set {_third} to random integer from 4 to 16
+		set {_fourth} to random integer from 4 to 16
+	
+		set {_nbt} to nbt from "{Items:[{Count:%{_first}%b,id:""minecraft:nautilus_shell""},{Count:%{_second}%b,id:""minecraft:oak_planks""},{Count:%{_third}%b,id:""minecraft:cobblestone""},{Count:%{_fourth}%b,id:""minecraft:dirt""}]}"
+	
+		set {_bundle} to bundle with nbt {_nbt}
+	
+		set {_rod} to fishing rod
+		set {_max} to max durability of {_rod}
+		set durability of {_rod} to random integer from ({_max} / 2) to 0
+	
+		set {_pickaxe} to stone pickaxe
+		set {_max} to max durability of {_pickaxe}
+		set durability of {_pickaxe} to random integer from ({_max} / 2) to 0
+	
+		set {_axe} to stone axe
+		set {_max} to max durability of {_axe}
+		set durability of {_axe} to random integer from ({_max} / 2) to 0
+	
+		give player {_rod}, {_bundle}, {_pickaxe} and {_axe}
+		exit
+		
+	if player has played before:
+		set {_w} to "<##44e971>&lWELCOME BACK"
+	else:
+		set {_w} to "<##44e971>&lWELCOME"
+		
+	wait 10 ticks
+	set {_s::*} to split player's name at ""
+	send title {_w} for 2 seconds with fadein 1 second
+	wait 10 ticks
+	
+	set {_n} to ""
+	loop {_s::*}:
+		set {_n} to "&f%uncolored {_n}%&a%loop-value%"
+		send title {_w} with subtitle {_n} for 2 seconds with fadein 0 seconds and fadeout 0 seconds
+		play sound "minecraft:block.deepslate_tiles.step" at pitch (1 / loop-value-1) to player
+		wait 3 ticks
+	play sound "minecraft:block.stone.place" to player
+	play sound "minecraft:entity.experience_orb.pickup" at volume 0.5 to player
+	wait 0.85 seconds
+	send title "&lVOID SURVIVAL" with subtitle "<##b1fb13>l<##adfb16>e<##a9fb19>a<##a5fb1c>p<##a1fc1e>.<##9dfc21>m<##99fc24>i<##95fc27>n<##91fc2a>e<##8dfc2d>h<##89fc30>u<##85fd32>t<##81fd35>.<##7dfd38>g<##79fd3b>g" with fadeout 1 second
+	play sound "minecraft:ui.cartography_table.take_result" at volume 1 to player
+	wait 1 tick
+	play sound "minecraft:entity.player.levelup" at volume 0.2 to player
+	play sound "minecraft:entity.player.splash.high_speed" at volume 0.2 to player
+	play sound "minecraft:block.note_block.imitate.ender_dragon" at volume 0.5 to player
+		
+	send "", "Hey there, are you new to the gamemode? &fDo &a/bookguide", "", "And if you find &csomeone&f doing these things:", "", " ⦁ &bspamming", " ⦁ &bhacking", " ⦁ &bracism", "", "Feel free to &a/report&f the player", "", "We also have a community Discord, &a/discord" and "And a donation page to fund the hosting &a/donate" 
+	
+	send ""	
+on chat:
+	cancel event
+	if metadata tag "staffchat" of player is true:
+		send "&a%player%: &f%message%" to players where [input has permission "staff.staffchat"]
+		exit
+	if message contains "[item]":
+		set {_t} to text component from "&7%player%: &7[&e%amount of held item in player's inventory%x&3 of %type of held item%&7]"
+		set hover event of {_t} to a new hover event showing player's tool
+		send component {_t} to players
+		exit
+	else if message contains "[inv]":
+		set {_t} to text component from "&7%player%: &7[&eInventory Snapshot&7]"
+		set {_items::*} to tag "Inventory" of nbt of player
+		set {_items} to "%{_items::*}%"
+		replace "and " with "," in {_items}
+		set hover event of {_t} to a new hover event showing bundle with nbt of "{Items:[%{_items}%]}"
+		send component {_t} to players
+		exit	
+	send "&7%player%: &f%message%" to players
+
+on damage of player:
+	cancel event if block below victim is bedrock
+	cancel event if block below attacker is bedrock
+
+on death of player:
+	set {_dm} to death message
+	set death message to ""
+	
+	send action bar "%{_dm}%" to players where [input's gamemode isn't spectator]
+
+function getFormatPing(p: player) :: string:
+	set {_ping} to {_p}'s ping
+	if {_ping} < 150:
+		return "&a%{_ping}%"
+	else if {_ping} is between 150 and 250:
+		return "&e%{_ping}%"
+	else:
+		return "&c%{_ping}%"
+		
+every 10 seconds:
+	loop players:
+		set loop-player's tablist header to "%nl%&lVOID SURVIVAL%nl%"	
+		set loop-player's tablist footer to "%nl%leap.minehut.gg%nl%"	
+		set loop-player's tablist name to "%loop-player% %getFormatPing(loop-player)%"
+		set {_state} to {randomItems::%loop-player's uuid%}
+		if {_state} ? true is true:
+			give loop-player 1 of randomItem()
+
+every 10 minutes:
+	broadcast component minehutAd()
+	
+function randomItem() :: item:
+	if chance of 25%:
+		return air
+	if chance of 50%:
+		return cobblestone
+	if chance of 30%:
+		return dirt
+	return oak plank
+	
+
+	

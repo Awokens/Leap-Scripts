@@ -1,0 +1,33 @@
+on right click with a trident:
+	if player's held item is a trident:
+		set item cooldown for trident for player to 1 day
+		cancel event
+
+on inventory click:
+	wait 1 tick
+	
+	if item cooldown for trident for player > 2 seconds:
+		set item cooldown for trident for player to 2 seconds
+		play sound "minecraft:block.beacon.power_select" at pitch 2 to player
+		exit
+	if player's offhand item isn't a trident:
+		set metadata tag "tridentOffhand" of player to false
+		exit
+	
+	player's offhand item is a trident
+	metadata tag "tridentOffhand" of player is false
+	clear metadata tag "tridentOffhand" of player
+	
+	if item cooldown for trident for player <= 0 seconds:		
+		set item cooldown for trident for player to 2 seconds
+		play sound "minecraft:block.beacon.power_select" at pitch 2 to player
+		
+on swap hand item:
+	player's held item is a trident
+	teleport player to player
+	if item cooldown for trident for player > 2 seconds:
+		set item cooldown for trident for player to 2 seconds
+		play sound "minecraft:block.beacon.power_select" at pitch 2 to player
+	else if item cooldown for trident for player <= 0 seconds:		
+		set item cooldown for trident for player to 2 seconds
+		play sound "minecraft:block.beacon.power_select" at pitch 2 to player

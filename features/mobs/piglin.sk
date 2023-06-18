@@ -1,0 +1,32 @@
+
+on spawn of piglin:
+	if event-entity's world is "world_nether":
+		cancel event
+
+on right click on adult zombified piglin with enchanted golden apple:
+	event-entity has potion effect strength
+	play sound "minecraft:entity.zombie_villager.cure" at event-entity
+	remove 1 of held item from player's inventory
+	
+	set {_cureRate} to random integer from 2000 and 3600
+	
+	set {_entity} to event-entity
+	set {_now} to now
+	while {_entity} is alive:
+		wait 1 tick
+		remove 1 from {_cureRate}
+		
+		if {_entity} isn't alive:
+			exit loop
+		show cloud at {_entity}
+		if {_cureRate} ? 0 <= 0:
+			spawn piglin at {_entity} with nbt (nbt compound from " {IsImmuneToZombification:1}")
+			play sound "minecraft:entity.zombie_villager.converted" at {_entity}
+			kill {_entity}
+			exit
+		
+		if (difference between {_now} and now) >= 3 minutes:
+			set {_cureRate} to 0
+			
+		
+			

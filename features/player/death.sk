@@ -1,0 +1,4 @@
+
+on death of player:
+	if chance of 0.1%:
+		drop skull of victim at victim

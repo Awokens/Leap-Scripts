@@ -1,0 +1,8 @@
+on death of skeleton:
+	event-damagecause is fire
+	block 0.5 below victim is soul sand
+	cancel drops of items
+	chance of 1%
+	spawn wither skeleton at victim
+	show huge explosion at victim
+	play sound "minecraft:entity.wither.spawn" at volume 0.2 at victim

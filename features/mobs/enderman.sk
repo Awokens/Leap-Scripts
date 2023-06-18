@@ -1,0 +1,3 @@
+on spawn of enderman:
+	if chance of 75%:
+		cancel event

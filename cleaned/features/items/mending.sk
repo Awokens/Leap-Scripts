@@ -1,7 +1,0 @@
-on player pickup xp:
-	
-	set {_fromFishingXP} to metadata tag "fishing" of event-entity
-	
-	if {_fromFishingXP} isn't true:
-		clear event-entity
-		add event-number to xp of player

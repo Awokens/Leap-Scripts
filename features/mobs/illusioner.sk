@@ -1,0 +1,28 @@
+
+
+on spawn of zombie:
+	chance of 0.1%
+	
+	cancel event
+	spawn illusioner at event-entity
+	
+	chance of 25%
+	set {_nbt} to "{BlockEntityTag:{Patterns:[{Color:9,Pattern:""mr""},{Color:8,Pattern:""bs""},{Color:7,Pattern:""cs""},{Color:8,Pattern:""bo""},{Color:15,Pattern:""ms""},{Color:8,Pattern:""hh""},{Color:8,Pattern:""mc""},{Color:15,Pattern:""bo""}]},HideFlags:32,display:{Name:{""color"":""gold"",""translate"":""block.minecraft.ominous_banner""}}}"
+	
+	set {_banner} to white standing banner with nbt (nbt from {_nbt})
+	
+	set helmet of last spawned illusioner to {_banner}
+	
+on death of illusioner:
+	attacker is a player
+
+	set {_nbt} to "{BlockEntityTag:{Patterns:[{Color:9,Pattern:""mr""},{Color:8,Pattern:""bs""},{Color:7,Pattern:""cs""},{Color:8,Pattern:""bo""},{Color:15,Pattern:""ms""},{Color:8,Pattern:""hh""},{Color:8,Pattern:""mc""},{Color:15,Pattern:""bo""}]},HideFlags:32,display:{Name:{""color"":""gold"",""translate"":""block.minecraft.ominous_banner""}}}"
+	
+	set {_banner} to white standing banner with nbt (nbt from {_nbt})
+	
+	if helmet of victim is {_banner}:
+		apply bad omen to attacker for 30 minutes
+		apply glowing to attacker for 30 minutes
+	
+	
+	

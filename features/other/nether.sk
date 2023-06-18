@@ -1,0 +1,26 @@
+
+on death of player:
+	victim's world is "world_nether"
+	
+	if victim's gamemode isn't survival:
+		exit
+	
+	set metadata tag "last_inventory" of victim to tag "Inventory" of nbt of victim
+	
+	if (victim's offhand item and victim's held item) doesn't contain totem of undying:
+		set {_items::*} to items of victim's inventory
+		drop {_items::*} at victim
+		clear victim's inventory
+		exit
+	damage cause is void
+	
+	show resurrection by totem on victim
+	remove 1 of totem of undying from victim's inventory
+	
+	
+	
+	if (victim's max health - 1) <= 0:
+		clear victim's inventory
+		reset victim's max health
+	else:
+		set victim's max health to victim's max health - 1

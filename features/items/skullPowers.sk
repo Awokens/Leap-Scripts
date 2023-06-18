@@ -1,0 +1,62 @@
+options:
+	piglin head = minecraft:piglin_head
+
+on damage of player:
+	victim's helmet is a creeper skull
+	event-damagecause is entity explosion
+	if item cooldown of attacker's helmet for attacker > 0 seconds:
+		exit
+	set item cooldown of attacker's helmet for attacker to 3 seconds
+	cancel event
+	
+on damage of player:
+	victim's helmet is a skeleton skull
+	event-damagecause is arrow
+	
+	if item cooldown of attacker's helmet for attacker > 0 seconds:
+		exit
+	set item cooldown of attacker's helmet for attacker to 3 seconds
+	play sound "minecraft:entity.skeleton.converted_to_stray" at volume 0.5 at attacker
+	
+	cancel event
+	
+on damage of player:
+	"%type of attacker's helmet%" is "PIGLIN_HEAD"
+	"%type of victim's helmet%" isn't "PIGLIN_HEAD"
+	if item cooldown for attacker's helmet for attacker > 0 seconds:
+		exit
+	set item cooldown of attacker's helmet for attacker to 10 seconds
+	play sound "minecraft:entity.piglin.angry" at volume 0.5 at attacker
+	apply strength tier 1 to attacker for 5 seconds replacing existing effect
+
+on damage of player:
+	attacker's helmet is a wither skeleton skull
+	victim's helmet isn't a wither skeleton skull
+	
+	if item cooldown of attacker's helmet for attacker > 0 seconds:
+		exit
+	set item cooldown of attacker's helmet for attacker to 10 seconds
+	play sound "minecraft:entity.wither.ambient" at volume 0.5 at attacker
+	
+	apply wither to victim for 10 seconds replacing existing effect
+	
+on damage of player:
+	attacker's helmet is a zombie skull
+	victim's helmet isn't a zombie skull
+	
+	if item cooldown for attacker's helmet for attacker > 0 seconds:
+		exit
+	set item cooldown of attacker's helmet for attacker to 15 seconds
+	play sound "minecraft:entity.zombie.infect" at volume 0.5 at attacker
+	apply hunger tier 2 to attacker for 10 seconds replacing existing effect
+	
+on target:
+	target is a player
+	if block below target is bedrock:
+		cancel event
+	
+on damage of player:
+	victim's helmet is a dragon head
+	cancel event
+	
+		

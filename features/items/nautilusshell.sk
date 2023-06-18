@@ -1,0 +1,22 @@
+on right click with nautilus shell:
+
+	item cooldown of nautilus shell for player <= 0 seconds
+
+	set item cooldown of nautilus shell for player to 0.2 seconds
+	remove 1 of nautilus shell from player's inventory
+	
+	set {_reward} to random integer from 1 and 4 of any fish
+	
+	if chance of 0.8%:
+		set {_reward} to diamond
+	if chance of 10%:
+		set {_reward} to random integer from 1 and 3 of tnt
+	if chance of 25%:
+		set {_reward} to any leather armor
+		enchant {_reward} with mending if chance of 10%
+	
+	if player has space for {_reward}:
+		give {_reward} to player
+	else:
+		drop {_reward} at player
+	play sound "minecraft:item.brush.brushing.sand" at player

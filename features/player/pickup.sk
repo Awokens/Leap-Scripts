@@ -1,0 +1,7 @@
+on pickup:
+	set {_state} to {antiPickup::%player's uuid%} ? true
+	
+	{_state} is true
+	
+	if player isn't sneaking:
+		cancel event
