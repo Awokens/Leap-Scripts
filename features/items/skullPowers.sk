@@ -11,8 +11,7 @@ on damage of player:
 	
 on damage of player:
 	victim's helmet is a skeleton skull
-	event-damagecause is arrow
-	
+	event-damagecause is projectile
 	if item cooldown of attacker's helmet for attacker > 0 seconds:
 		exit
 	set item cooldown of attacker's helmet for attacker to 3 seconds
@@ -21,8 +20,8 @@ on damage of player:
 	cancel event
 	
 on damage of player:
-	"%type of attacker's helmet%" is "PIGLIN_HEAD"
-	"%type of victim's helmet%" isn't "PIGLIN_HEAD"
+	type of attacker's helmet is piglin head
+	type of victim's helmet isn't piglin head
 	if item cooldown for attacker's helmet for attacker > 0 seconds:
 		exit
 	set item cooldown of attacker's helmet for attacker to 10 seconds
@@ -39,7 +38,11 @@ on damage of player:
 	play sound "minecraft:entity.wither.ambient" at volume 0.5 at attacker
 	
 	apply wither to victim for 10 seconds replacing existing effect
-	
+
+on food level change:
+	if player's helmet is a zombie skull:
+		cancel event
+
 on damage of player:
 	attacker's helmet is a zombie skull
 	victim's helmet isn't a zombie skull
@@ -48,7 +51,7 @@ on damage of player:
 		exit
 	set item cooldown of attacker's helmet for attacker to 15 seconds
 	play sound "minecraft:entity.zombie.infect" at volume 0.5 at attacker
-	apply hunger tier 2 to attacker for 10 seconds replacing existing effect
+	apply hunger tier 2 to victim for 10 seconds replacing existing effect
 	
 on target:
 	target is a player
