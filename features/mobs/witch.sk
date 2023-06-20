@@ -3,4 +3,4 @@ on death of witch:
 	set {_i} to looting level of attacker's held item + 1
 	if chance of {_i}%:
 		cancel drops of items
-		drop nether wart at victim
+		drop nether wart, brown mushroom or mushroom at victim
