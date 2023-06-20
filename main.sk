@@ -102,7 +102,7 @@ function getFormatPing(p: player) :: string:
 	else:
 		return "&c∞"
 		
-every 2 seconds:
+every 10 seconds:
 	loop players:
 		set loop-player's tablist header to "%nl%&lVOID SURVIVAL%nl%"	
 		set loop-player's tablist footer to "%nl%leap.minehut.gg%nl%"	
