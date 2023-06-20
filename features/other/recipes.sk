@@ -14,6 +14,7 @@ on load:
 	register new shaped recipe for enchanted golden apple using gold block, gold block, gold block, gold block, apple, gold block, gold block, gold block and gold block with id "custom:enchanted_golden_apple"
 	
 	# furnace recipes
+	register new furnace recipe for obsidian using crying obsidian with id "furnace:crying_obsidian"
 	register new furnace recipe for cooked beef using rotten flesh with id "furnace:cooked_beef"
 	register new furnace recipe for 5 gold nuggets using golden helmet with id "furnace:gold_helmet_nuggets"
 	register new furnace recipe for 8 gold nuggets using golden chestplate with id "furnace:gold_chestplate_nuggets"
@@ -45,7 +46,20 @@ on inventory click:
 	index of event-slot is 42
 	make player execute command "recipes"
 
-
+on inventory click:
+	set {_inv} to (metadata tag "items" of player)
+	name of event-inventory is name of {_inv}
+	cancel event
+	event-inventory is player's inventory
+	make player execute command "itemfilter"
+	set {_items::*} to {items::%player's uuid%::*}
+	if size of {_items::*} < 54:
+		event-slot isn't air
+		{_items::*} doesn't contain type of event-slot
+		add plain type of event-slot to {items::%player's uuid%::*}
+	wait 1 tick
+	loop 54 times:
+		set slot (loop-value - 1) of (metadata tag "items" of player) to {items::%player's uuid%::%loop-value%} ? air
 on inventory click:
 	set {_inv} to (metadata tag "recipes" of player)
 	if name of event-inventory is name of {_inv}:
