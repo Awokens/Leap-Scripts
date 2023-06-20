@@ -10,48 +10,31 @@ on join:
 
 	set join message to "&a%player% has joined the server"
 	set glowing of player to false
-	if player has permission "staff.vanish":
-		exit
-	hide (players where [input's gamemode is spectator]) from player
-
+	if player doesn't have permission "staff.vanish":
+		loop players:
+			if loop-player's gamemode is spectator:
+				hide loop-player from player
+			else:
+				reveal loop-player to player
 	make embed:
 		set title of embed to "%player% has joined the server"
 		set embed color of the embed to hex "3ddf34"
 	post last embed to channel with id {@server}
 
 on quit:
-	if player's gamemode is spectator:
-		set quit message to ""
-		exit
 	set quit message to "&c%player% has left the server"
+	set glowing of player to false
 	make embed:
 		set title of embed to "%player% has left the server"
 		set embed color of the embed to hex "f75151"
 	post (last embed) to channel with id {@server}
 
 function unvanish(p: player):
-	#if difference between last login of {_p} and now <= 5 seconds:
-		#exit
 	reveal {_p} to players
 	set glowing of {_p} to false
-	#exit
-	#send "&a%{_p}% has joined the server" to players
-
-	#make embed:
-		#set title of embed to "%{_p}% has joined the server"
-		#set embed color of the embed to hex "3ddf34"
-	#post last embed to channel with id {@server}
-
+	
 on gamemode change to spectator:
-
-
-	#send "&c%player% has left the server" to players
 	set glowing of player to true
-	#make embed:
-	#	set title of embed to "%player% has left the server"
-	#	set embed color of the embed to hex "f75151"
-	#post (last embed) to channel with id {@server}
-
 	loop players:
 		if loop-player has permission "staff.vanish":
 			reveal player to loop-player
