@@ -1,0 +1,46 @@
+# set {_nbt} to nbt compound of file "world/playerdata/someuuid.dat"
+
+command /search <item type> <boolean=false>:
+	permission: *
+	trigger:
+
+		if arg-2 is true:
+			set {_tag} to "EnderItems"
+		else:
+			set {_tag} to "Inventory"
+
+		loop offline players:
+			set {_id} to loop-offlineplayer's uuid
+			set {_nbt} to nbt compound of file "world/playerdata/%{_id}%.dat"
+
+	
+			set {_inv::*} to tag {_tag} of {_nbt}
+			set {_items::*} to items from nbt {_inv::*}
+			
+			loop {_items::*}:
+				if type of loop-value-2 is arg-1:
+					add loop-offlineplayer to {_p::*} 
+					exit 2 sections
+		send {_p::*}
+
+command /offlineinventory <offlineplayer> <boolean=false>:
+	permission: *
+	trigger:
+		set {_id} to arg-1's uuid
+		set {_nbt} to nbt compound of file "world/playerdata/%{_id}%.dat"
+
+		if arg-2 is true:
+			set {_tag} to "EnderItems"
+		else:
+			set {_tag} to "Inventory"
+
+		set {_inv::*} to tag {_tag} of {_nbt}
+		set {_items::*} to items from nbt {_inv::*}
+
+		set {_gui} to chest inventory with 4 rows named "%arg-1%'s offline inventory"
+
+		loop size of {_items::*} times:
+			set slot (loop-value - 1) of {_gui} to {_items::%loop-value%} ? air
+		
+		open {_gui} to player
+
