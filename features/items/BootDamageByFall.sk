@@ -1,22 +1,25 @@
-on damage of player:
-	exit # deprecated feature
-	damage cause is fall
+
+# Deprecated, no longer a feature
+
+# on damage of player:
+# 	exit # deprecated feature
+# 	damage cause is fall
 	
-	victim is wearing boots
+# 	victim is wearing boots
 	
-	set {_chance} to unbreaking level of victim's boots
-	set {_deduce} to feather falling level of victim's boots
+# 	set {_chance} to unbreaking level of victim's boots
+# 	set {_deduce} to feather falling level of victim's boots
 	
-	if chance of ((5 * {_chance}) ? 0)%:
-		exit
+# 	if chance of ((5 * {_chance}) ? 0)%:
+# 		exit
 	
-	if {_deduce} > 0:
-		set {_damage} to victim's fall distance / ({_deduce} * 2)
-	else:
-		set {_damage} to victim's fall distance
+# 	if {_deduce} > 0:
+# 		set {_damage} to victim's fall distance / ({_deduce} * 2)
+# 	else:
+# 		set {_damage} to victim's fall distance
 	
-	if max durability of victim's boots - {_damage} <= 0:
-		set victim's boots to air
-		play sound "minecraft:item.shield.break" at victim
-	else:
-		damage victim's boots by {_damage}
+# 	if max durability of victim's boots - {_damage} <= 0:
+# 		set victim's boots to air
+# 		play sound "minecraft:item.shield.break" at victim
+# 	else:
+# 		damage victim's boots by {_damage}
