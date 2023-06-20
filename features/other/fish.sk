@@ -1,5 +1,3 @@
-
-
 on fish:
 	fish state is CAUGHT_FISH
 	
@@ -7,7 +5,14 @@ on fish:
 	chance of 1%
 	set {_e} to caught fish
 	set item of {_e} to air
-	spawn elder guardian or guardian at fishing caught entity
+	
+	spawn elder guardian, guardian or drowned at fishing caught entity
+	set {_last} to last spawned entity
+	if {_last} is a drowned:
+		if chance of 15%:
+			set {_trident} to trident
+			damage {_trident} by 249
+			set {_last}'s held item to {_trident}
 	show huge explosion at fishing caught entity
 	play sound "minecraft:entity.elder_guardian.curse" at fishing caught entity
 	
