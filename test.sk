@@ -1,3 +1,19 @@
+
+on damage:
+	event-world is "world_tutorial"
+	if attacker isn't a player:
+		cancel event
+
+command /trials:
+	trigger:
+		
+		loop 1000 times:
+			if chance of 1%:
+				if random integer from 1 and 3 is 1:
+					if chance of 15%:
+						add 1 to {_i}
+		send {_i}
+
 expression similarity (of|between|for) %string% and %string%:
 	return type: boolean
 	get:
@@ -23,3 +39,6 @@ expression similarity (of|between|for) %string% and %string%:
 			return true
 		else:
 			return false
+			
+		
+		

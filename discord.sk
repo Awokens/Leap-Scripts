@@ -1,8 +1,13 @@
 options:
-	bot: "BOT NAME"
-	server: "SERVER ID"
-	guild: "GUILD ID"
-	token: "DISCORD TOKEN"
+
+
+	bot: "Asleepens"
+	server: "1105165795169947810"
+	guild: "1105153184575541331"
+	token: ""
+#
+# load discord bot
+#
 
 define new bot named "Asleepens":
 	token: {@token}
@@ -15,6 +20,36 @@ define new bot named "Asleepens":
 
 on chat:
 	send "%player%: %message%" to console
+#on watching file changes at "logs/latest.log":
+
+#	if {lastWatch} isn't set:
+#		set {lastWatch} to now
+		
+#	if difference between {lastWatch} and now <= 1 second:
+#		exit
+#	else:
+#		set {lastWatch} to now
+
+#	set {_content::*} to content of event-path
+#	set {_content::*} to reversed {_content::*}
+#	if size of {lastContent::*} >= 64:
+#		clear {lastContent::*}
+
+#	loop 8 times:
+#		set {_current} to {_content::%loop-value%}
+#		if {lastContent::*} contains {_current}:
+#			continue
+#		add {_current} to {lastContent::*}
+#		add {_current} to {_current::*}
+	
+	
+	
+#	set {_content} to join reversed {_current::*} with "%nl%"
+#	make embed:
+#		set embed color of embed to hex "2b2d31"
+#		set description of embed to {_content}
+#	post last embed to channel with id "1114059156975005707"
+
 
 on chat:
 	set {_message} to message
@@ -26,6 +61,10 @@ on chat:
 	create new message and store it in {_msg}:
 		set content of message to "%player%: %{_message}%"
 	post {_msg} to channel with id {@server}
+
+#
+# send discord user message from server channel to in-game
+#
 
 on message received:
 	message is from guild
@@ -75,7 +114,9 @@ on load: # it WILL NOT be inside of that, here it's just for testing :p
 	
 
 	update {_mcunban}, {_list}, {_mcban}, {_mcmute}, {_mcunmute} and {_mapReset} locally in guild with id {@guild}
-	
+
+
+		
 	
 on slash command:
 	if event-string is "list":
