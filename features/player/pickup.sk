@@ -1,7 +1,27 @@
+
+command /itemfilter:
+	trigger:	
+		set metadata tag "items" of player to chest inventory with 6 row named "%player%'s filtered items"	
+		
+		loop 54 times:
+			set slot (loop-value - 1) of (metadata tag "items" of player) to {items::%player's uuid%::%loop-value%} ? air
+		
+		open (metadata tag "items" of player) to player
+
+on inventory click:
+	set {_inv} to (metadata tag "items" of player)
+	name of event-inventory is name of {_inv}
+	cancel event
+	event-inventory isn't player's inventory
+	set {_items::*} to {items::%player's uuid%::*}
+	if size of {_items::*} > 0:
+		event-slot isn't air
+		{_items::*} contains type of event-slot
+		remove plain type of event-slot from {items::%player's uuid%::*}
+	wait 1 tick
+	loop 54 times:
+		set slot (loop-value - 1) of (metadata tag "items" of player) to {items::%player's uuid%::%loop-value%} ? air
+
 on pickup:
-	set {_state} to {antiPickup::%player's uuid%} ? true
-	
-	{_state} is true
-	
-	if player isn't sneaking:
+	if {items::%player's uuid%::*} contains event-itemtype:
 		cancel event
