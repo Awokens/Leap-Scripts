@@ -100,9 +100,9 @@ function getFormatPing(p: player) :: string:
 	else if {_ping} is between 150 and 250:
 		return "&e%{_ping}%"
 	else:
-		return "&c%{_ping}%"
+		return "&c∞"
 		
-every 10 seconds:
+every 2 seconds:
 	loop players:
 		set loop-player's tablist header to "%nl%&lVOID SURVIVAL%nl%"	
 		set loop-player's tablist footer to "%nl%leap.minehut.gg%nl%"	
