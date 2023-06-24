@@ -61,6 +61,7 @@ on gamemode change to creative:
 	
 command /staffchat:
 	aliases: /sc
+	permission: *
 	trigger:
 		set {_state} to metadata tag "staffchat" of player
 		if {_state} ? false is true:
