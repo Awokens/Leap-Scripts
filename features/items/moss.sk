@@ -1,6 +1,0 @@
-	
-on right click on dirt with bonemeal:
-	cancel event
-	remove 1 of held item from player's held item
-	set event-block to moss block
-	apply bonemeal effect to event-block

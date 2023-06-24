@@ -1,8 +1,0 @@
-	
-on break of stone:
-	set {_i} to fortune level of held item + 1
-	set {_i} to {_i} * 20
-	if chance of {_i}%:
-		cancel drops
-		drop iron nugget at event-block
-		spawn 3 xp at event-block

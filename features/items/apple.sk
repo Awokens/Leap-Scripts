@@ -1,3 +1,0 @@
-on leaves decay:
-	if chance of 1%:
-		drop apple at event-block
