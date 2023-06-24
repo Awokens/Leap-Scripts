@@ -5,10 +5,8 @@ every minute:
 	set {_diff} to difference between {mapResetTime} and now
 	if {_diff} >= 2 days:
 		send "", "&c&lMAP RESET TIME", "" and "&7ping pong Awokens to confirm map reset" and "" to players
-		set {mapResetTime} to now
+		set {mapResetTime} to now	
 		
-
-	
 on place:
 	event-world is "world"
 	if player's gamemode is creative:
@@ -32,11 +30,12 @@ command /mapreset <number>:
 	usage: &c:)
 	permission: *
 	trigger:
-		if arg-1 isn't 123456:
+		if arg-1 isn't 69420:
 			exit
 		if player isn't "Awokens":
 			exit
-		
+		if player's xp isn't 69420:
+			exit
 		execute console command "//world world"
 		execute console command "//pos1 176,-64,176"
 		execute console command "//pos2 -176,0,-176"
