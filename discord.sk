@@ -1,10 +1,10 @@
+
 options:
+	bot: "BOT NAME HERE"
+	server: "SERVER CHANNEL ID HERE"
+	guild: "DISCORD GUILD ID HERE"
+	token: "DISCORD TOKEN HERE"
 
-
-	bot: "Asleepens"
-	server: "1105165795169947810"
-	guild: "1105153184575541331"
-	token: ""
 #
 # load discord bot
 #
@@ -55,9 +55,6 @@ on chat:
 	set {_message} to message
 	replace all "@" in {_message} with ""
 	length of {_message} > 0
-	#if {_message} doesn't match matches "[a-zA-Z0-9,.?:'""’\[\]{}!@&##$%^“”*:()_\^+-=`~<>\\;\s]":
-		#continue
-	
 	create new message and store it in {_msg}:
 		set content of message to "%player%: %{_message}%"
 	post {_msg} to channel with id {@server}
