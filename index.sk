@@ -1,0 +1,86 @@
+options:
+	spawn: location(0.5, -63, 0.5, world("world"), 90, 0)
+	cherry planks = minecraft:cherry_planks
+	
+on respawn:
+	if bed of player isn't set:
+		teleport player to {@spawn}
+	
+on join:
+
+#
+# initialize tab formats
+#
+	set player's tablist header to "%nl%&lVOID SURVIVAL%nl%"	
+	set player's tablist footer to "%nl%leap.minehut.gg%nl%"	
+	set player's tablist name to "%player% %fancy ping for player%"
+
+#
+# new player - basic kit
+#	
+	if player has played before:
+		set {_w} to "<##44e971>&lWELCOME BACK"
+	else:
+		wait 1 tick
+		teleport player to {@spawn}
+		new basic kit for player
+		set {_w} to "<##44e971>&lWELCOME"
+		
+#
+# Welcome animation
+#
+	wait 10 ticks
+	set {_s::*} to split player's name at ""
+	send title {_w} for 2 seconds with fadein 1 second
+	wait 10 ticks
+	set {_n} to ""
+	loop {_s::*}:
+		set {_n} to "&f%uncolored {_n}%&a%loop-value%"
+		send title {_w} with subtitle {_n} for 2 seconds with fadein 0 seconds and fadeout 0 seconds
+		play sound "minecraft:block.deepslate_tiles.step" at pitch (1 / loop-value-1) to player
+		wait 3 ticks
+
+#
+# Sound effects
+#
+	play sound "minecraft:block.stone.place" to player
+	play sound "minecraft:entity.experience_orb.pickup" at volume 0.5 to player
+	wait 0.85 seconds
+	send title "&lVOID SURVIVAL" with subtitle "<##b1fb13>l<##adfb16>e<##a9fb19>a<##a5fb1c>p<##a1fc1e>.<##9dfc21>m<##99fc24>i<##95fc27>n<##91fc2a>e<##8dfc2d>h<##89fc30>u<##85fd32>t<##81fd35>.<##7dfd38>g<##79fd3b>g" with fadeout 1 second
+	play sound "minecraft:ui.cartography_table.take_result" at volume 1 to player
+	wait 1 tick
+	play sound "minecraft:entity.player.levelup" at volume 0.2 to player
+	play sound "minecraft:entity.player.splash.high_speed" at volume 0.2 to player
+	play sound "minecraft:block.note_block.imitate.ender_dragon" at volume 0.5 to player
+		
+	#
+	# Join information
+	#
+	send "", "Hey there, are you new to the gamemode? &fDo &a/bookguide", ""
+	send "And if you find &csomeone&f doing these things:", ""
+	send " ⦁ &bspamming", " ⦁ &bhacking", " ⦁ &bracism", ""
+	send "Feel free to &a/report&f the player", ""
+	send "We also have a community Discord, &a/discord"
+	send "And a donation page to fund the hosting &a/donate", ""	
+
+on death of player:
+	set {_dm} to death message
+	set death message to ""
+	
+	send action bar "%{_dm}%" to players where [input's gamemode isn't spectator]
+
+
+every 10 seconds:
+	loop players:	
+		set loop-player's tablist name to "%loop-player% %fancy ping for loop-player%"
+		set {_state} to {randomItems::%loop-player's uuid%}
+		if {_state} ? true isn't true:
+			continue
+		give (biome wood relative for loop-player, cobblestone or dirt) to loop-player
+
+every 10 minutes:
+	broadcast component minehutAd()
+
+	
+
+	
