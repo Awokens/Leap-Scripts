@@ -1,4 +1,0 @@
-on right click on villager:
-	if profession of clicked entity is librarian profession or armorer profession:
-		cancel event
-		set profession of clicked entity to none profession
