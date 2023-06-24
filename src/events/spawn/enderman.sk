@@ -1,0 +1,7 @@
+#
+# deprecated - spawn rates back to normal
+#
+
+# on spawn of enderman:
+# 	if chance of 75%:
+# 		cancel event

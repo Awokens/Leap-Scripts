@@ -1,0 +1,13 @@
+expression biome wood relative for %player%:
+    return type: item
+    get:
+        return oak plank if expr-1's biome is plains or beach
+        return spruce plank if expr-1's biome is snowy slopes
+        return birch plank if expr-1's biome is flower forest or birch forest
+        return jungle plank if expr-1's biome is jungle
+        return dark oak plank if expr-1's biome is dark forest
+        return mangrove plank if expr-1's biome is mangrove swamp
+        return cherry planks if "%expr-1's biome%" is "biomes.cherry_grove"
+        return bamboo planks if expr-1's biome is bamboo jungle
+        return crimson plank if expr-1's biome is crimson forest
+        return warped plank if expr-1's biome is warped forest

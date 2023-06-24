@@ -1,0 +1,10 @@
+on right click on mud with water bottle:
+
+	if item cooldown for held item for player > 0 seconds:
+		exit
+	set item cooldown for held item for player to 1 second
+	remove 1 of water bottle from player's inventory
+	wait 1 tick
+	give player empty bottle
+	set event-block to sand
+	play sound "minecraft:item.bottle.empty" at player

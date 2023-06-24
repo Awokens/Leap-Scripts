@@ -1,0 +1,10 @@
+
+expression item contents of %item%:
+    return type: items
+    parse:
+        if expr-1 isn't a shulker box or a bundle:
+            exit
+        set {_nbt::*} to tag "BlockEntityTag;Items" of nbt of expr-1
+        continue
+    get:
+        return items from nbt {_nbt::*}

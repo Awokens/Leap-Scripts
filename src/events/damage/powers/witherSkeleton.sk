@@ -1,0 +1,10 @@
+on damage of player:
+	attacker's helmet is a wither skeleton skull
+	victim's helmet isn't a wither skeleton skull or dragon head
+	
+	if item cooldown of attacker's helmet for attacker > 0 seconds:
+		exit
+	set item cooldown of attacker's helmet for attacker to 10 seconds
+	play sound "minecraft:entity.wither.ambient" at volume 0.5 at attacker
+	
+	apply wither to victim for 10 seconds replacing existing effect

@@ -1,0 +1,3 @@
+on damage of player:
+	cancel event if block below victim is bedrock
+	cancel event if block below attacker is bedrock

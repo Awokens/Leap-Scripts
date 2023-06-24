@@ -1,0 +1,9 @@
+on damage of player:
+	victim's helmet is a skeleton skull
+	event-damagecause is projectile
+	if item cooldown of attacker's helmet for attacker > 0 seconds:
+		exit
+	set item cooldown of attacker's helmet for attacker to 3 seconds
+	play sound "minecraft:entity.skeleton.converted_to_stray" at volume 0.5 at attacker
+	
+	cancel event

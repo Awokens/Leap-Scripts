@@ -1,0 +1,4 @@
+
+on left click with crafting table:
+	player is sneaking
+	open crafting table to player

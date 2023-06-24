@@ -1,0 +1,9 @@
+expression fancy ping (of|for) %player%:
+    return type: string
+    get:
+        set {_ping} to expr-1's ping
+        if {_ping} < 150:
+            return "&a%{_ping}%"
+        else if {_ping} is between 150 and 250:
+            return "&e%{_ping}%"
+        return "&c∞"

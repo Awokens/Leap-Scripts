@@ -1,0 +1,23 @@
+
+options:
+    staff: "staff"
+
+expression default players:
+    return type: players
+    get:
+        return players without permission {@staff}
+
+expression staff players:
+    return type: players
+    get:
+        return players with permission {@staff}
+
+expression players with permission %string%:
+    return type: players
+    get:
+        return players where [input has permission expr-1]
+
+expression players without permission %string%:
+    return type: players
+    get:
+        return players where [input doesn't have permission expr-1]

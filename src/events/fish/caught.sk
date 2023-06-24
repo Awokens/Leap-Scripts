@@ -1,0 +1,34 @@
+function fish(l: location):
+	
+	loop blocks in radius 5 of {_l}:
+		if loop-block is water:
+			add loop-block to {_b::*}
+	
+	if {_b::*} isn't set:
+		exit
+	
+	loop random integer from 1 and 5 times:
+		if chance of 1%:
+			spawn tropical fish at first element of shuffled {_b::*}
+		wait 1 second
+
+on fish:
+	fish state is CAUGHT_FISH
+	
+	fish(fishing caught entity)
+	
+	show sonic boom 1 blocks infront of player's head
+	chance of 1%
+	set {_e} to caught fish
+	set item of {_e} to air
+	
+	spawn elder guardian, guardian or drowned at fishing caught entity
+	set {_last} to last spawned entity
+	if {_last} is a drowned:
+		if chance of 15%:
+			set {_trident} to trident
+			damage {_trident} by 249
+			set {_last}'s held item to {_trident}
+	show huge explosion at fishing caught entity
+	play sound "minecraft:entity.elder_guardian.curse" at fishing caught entity
+	

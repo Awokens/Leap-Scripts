@@ -1,0 +1,5 @@
+
+on damage:
+	victim is a wither
+	block below attacker is bedrock
+	cancel event

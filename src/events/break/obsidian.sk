@@ -1,0 +1,9 @@
+on break of obsidian:
+	world is "world_the_end"
+	if tag "custom;placed" of nbt of event-block isn't set:
+		cancel drops
+		show cloud at event-block
+	
+on place of obsidian:
+	world is "world_the_end"
+	set tag "custom;placed" of nbt of event-block to true

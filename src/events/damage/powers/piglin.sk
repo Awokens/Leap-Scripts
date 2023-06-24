@@ -1,0 +1,8 @@
+on damage of player:
+	type of attacker's helmet is piglin head
+	type of victim's helmet isn't piglin head or dragon head
+	if item cooldown for attacker's helmet for attacker > 0 seconds:
+		exit
+	set item cooldown of attacker's helmet for attacker to 10 seconds
+	play sound "minecraft:entity.piglin.angry" at volume 0.5 at attacker
+	apply strength tier 1 to attacker for 5 seconds replacing existing effect

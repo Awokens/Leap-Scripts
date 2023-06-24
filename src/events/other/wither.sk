@@ -1,0 +1,52 @@
+
+on death:
+	cancel drops of items if metadata tag "minion" of victim is set
+
+on damage:
+	attacker is a wither
+	if chance of 5%:
+		apply darkness tier 2 to victim for 1 minute replacing existing effect
+	apply wither tier 2 to victim for 15 seconds replacing existing effect
+	push victim (vector from attacker to victim) at speed 0.8
+
+on damage of wither:
+	set metadata tag "attacker" of victim to attacker
+	chance of 15%
+	push victim (vector from attacker to victim) at speed 5
+	show huge explosion at victim
+	add 20 to victim's health
+	apply invisibility to victim for 5 seconds replacing existing effect
+	apply resistance 3 to victim for 5 seconds replacing existing effect
+	set {_blocks::*} to blocks in radius 5 of victim
+	play sound "minecraft:entity.wither.ambient" at victim
+	loop (random integer from 5 and 8) times:
+		set {_b} to random element out of {_blocks::*}
+		set {_entity} to random element out of (wither skeleton, zombie, husk, skeleton, spider, and cave spider)
+		spawn {_entity} at {_b}
+		set {_e} to last spawned entity
+		set metadata tag "minion" of {_e} to victim
+		if chance of 25%:
+			apply invisibility to {_e} for 1 minute
+		apply fire resistance to {_e} for 1 minute
+		apply speed tier 3 to {_e} for 1 minute
+		apply strength tier 3 to {_e} for 1 minute
+		play sound "minecraft:entity.wither.break_block" at volume 0.2 at {_b}
+		play sound "minecraft:entity.wither_skeleton.step" at {_b}
+		wait 5 tick
+		show cloud at {_b}
+		
+on death of wither:
+
+	cancel drops of items
+	set {_i} to looting level of attacker's held item
+	drop (random integer from 0 and {_i} + 1) of netherite scrap at victim
+	spawn 1000 xp at victim
+
+	loop entities:
+		loop-entity is a mob
+		if metadata tag "minion" of loop-entity isn't victim:
+			continue
+		kill loop-entity
+		play sound "minecraft:entity.wither.break_block" at loop-entity
+		play sound "minecraft:entity.wither_skeleton.step" at loop-entity
+		wait 5 tick

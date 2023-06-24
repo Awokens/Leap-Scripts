@@ -1,0 +1,13 @@
+on damage of player:
+	attacker's helmet is a zombie skull
+	victim's helmet isn't a zombie skull or dragon head
+	
+	if item cooldown for attacker's helmet for attacker > 0 seconds:
+		exit
+	set item cooldown of attacker's helmet for attacker to 15 seconds
+	play sound "minecraft:entity.zombie.infect" at volume 0.5 at attacker
+	apply hunger tier 2 to victim for 10 seconds replacing existing effect
+
+on food level change:
+    if player's helmet is a zombie skull:
+        cancel event

@@ -1,0 +1,23 @@
+on right click on player:
+	player is sneaking
+	player's held item isn't air
+	clicked player is sneaking
+	clicked player's held item isn't air
+	
+	if metadata tag "mutual" of clicked player isn't player:
+		set metadata tag "mutual" of player to clicked player 
+		set metadata tag "clicked" of player to now
+		exit
+	set {_last} to metadata tag "clicked" of clicked player
+	if difference between {_last} and now <= 0.5 second:
+			
+		set {_item1} to clicked player's held item
+		set {_item2} to player's held item
+		set player's held item to {_item1}
+		set clicked player's held item to {_item2}
+		
+		play sound "minecraft:entity.item.pickup" at volume 0.5 at clicked player and player
+		
+	clear metadata tag "mutual" of player and clicked player
+	clear metadata tag "clicked" of clicked player and player
+	

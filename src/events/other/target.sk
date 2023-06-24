@@ -1,0 +1,5 @@
+		
+on target:
+	if event-entity is a mob:
+		if target is a mob:
+			cancel event

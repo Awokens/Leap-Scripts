@@ -1,0 +1,12 @@
+on death of elder guardian:
+	if chance of 10%:
+		cancel drops
+		drop heart of the sea at victim
+	attacker is a player
+	attacker has potion effect luck
+	apply luck 2 to attacker for 4 minutes
+	
+on death of guardian:
+	attacker is a player
+	attacker has potion effect luck
+	apply luck 2 to attacker for 4 minutes

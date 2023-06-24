@@ -1,0 +1,7 @@
+on damage of player:
+	victim's helmet is a creeper skull
+	event-damagecause is entity explosion
+	if item cooldown of attacker's helmet for attacker > 0 seconds:
+		exit
+	set item cooldown of attacker's helmet for attacker to 3 seconds
+	cancel event

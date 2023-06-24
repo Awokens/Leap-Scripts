@@ -1,0 +1,97 @@
+
+at 21:00 in world "world":
+	kill wardens
+	set {wardenSession} to true
+	execute command "stopsound @a"
+	apply darkness to players for 40 seconds
+	play sound "minecraft:music.overworld.deep_dark" at volume 0.5 to players
+	wait 5 seconds
+	set {_s::*} to "&7Beneath the crescent moon's shadowed &fembrace,", "&7Whispers emerge, unveiling the &kwarden's&r&7 grace.", "&7In night's realm, a presence shall &farise,", "&7Veiled in mystery, catching all by &fsurprise.", "&7Prepare your shield, for chaos is &fnear," and "&7The reckoning looms, the &fend &k&7drawing clear."
+	send "" to players
+	loop {_s::*}:
+		send loop-value to players
+		play sound "minecraft:ui.cartography_table.take_result" at volume 0.3 to players
+		wait 5 seconds
+	send "" to players
+	set {wardenSession} to false
+	
+	set {_life} to now
+	spawn warden at block above random element out of players
+	set {_last} to last spawned warden
+	while {_last} is alive:
+		if difference between {_life} and now > 5 minutes:
+			kill {_last}
+			execute command "stopsound @a"
+		if {_last}'s y-coord < -64:
+			push {_last} upwards at speed 1
+			show huge explosion at {_last}
+			teleport {_last} to block above random element out of players
+		wait 1 second
+
+on death of player:
+	victim's helmet is a eye of ender
+	last spawned warden is alive
+	
+	if victim's y-coord < -64:
+		set metadata tag "end" of victim to true
+
+on spawn of warden:
+	cancel event if spawn reason isn't customized
+
+on respawn:
+	wait 5 tick
+	teleport player to location(0.5, 250, 0.5, world("world_the_end"))
+	if player's helmet is a eye of ender:
+		set player's helmet to air
+	metadata tag "end" of player is true
+	apply slow falling to player for 25 seconds
+	apply darkness to player for 15 seconds
+	set metadata tag "end" of player to false
+	play sound "minecraft:entity.warden.heartbeat" to player
+	play sound "minecraft:entity.ender_eye.death" to player
+	play sound "minecraft:music.end" to player
+
+on chat:
+	cancel event
+	if {wardenSession} is true:
+		exit
+	if message contains "[item]":
+		set {_t} to text component from "&7%player%: &7[&e%amount of held item in player's inventory%x&3 of %type of held item%&7]"
+		set hover event of {_t} to a new hover event showing player's tool
+		send component {_t} to players
+		exit
+	if message contains "[inv]":
+		set {_t} to text component from "&7%player%: &7[&eInventory Snapshot&7]"
+		set {_items::*} to tag "Inventory" of nbt of player
+		set {_items} to "%{_items::*}%"
+		replace "and " with "," in {_items}
+		set hover event of {_t} to a new hover event showing bundle with nbt of "{Items:[%{_items}%]}"
+		send component {_t} to players
+		exit
+	if metadata tag "staffchat" of player is true:
+		send "&a%player%: &f%message%" to players where [input has permission "staff.staffchat"]
+		exit
+	send "&7%player%: &f%message%" to players
+	
+on death of warden:
+	set {wardenSession} to true
+	set {_s::*} to "&7Warden falls, player prevails,", "&7But darkness &fhides&7, new tale &funveils."
+	set time in world("world") to 12:00
+	execute command "stopsound @a"
+	send "" to players
+	loop {_s::*}:
+		send loop-value to players
+		play sound "minecraft:ui.cartography_table.take_result" at volume 0.3 to players
+		wait 3 seconds
+	send "" to players
+
+	set {_s::*} to "%nl%&7For on that day, the warden's might ignites.","&7Secret way revealed, &fascend high and fly,", "&7In the &fclear sky&7, where secrets lie.", "&7Enter with &fcaution&7,&f danger&7 draws near,", "&7No return, for the &f&kEnd&7 is what you'll fear.", "&7In the realm's embrace, heed my plea,", "&7Enter not, for the &f&kEnd&7 it shall be.%nl%"
+	loop {_s::*}:
+		send loop-value to players
+		play sound "minecraft:ui.cartography_table.take_result" at volume 0.3 to players
+		wait 3 seconds
+	set {wardenSession} to false
+
+			
+		
+		

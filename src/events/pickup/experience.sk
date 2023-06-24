@@ -1,0 +1,10 @@
+on player pickup xp:
+
+	set {_nbt} to nbt of event-entity
+	set {_reason} to tag "Paper.ExpData;reason" of {_nbt}	
+	
+	if {_reason} isn't "FISHING" or "EXP_BOTTLE":
+		set {_level} to event-number
+		add {_level} to xp of player
+		clear event-entity
+		cancel event

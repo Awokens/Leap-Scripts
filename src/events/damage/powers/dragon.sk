@@ -1,0 +1,102 @@
+
+on left click:
+	player's helmet is a dragon head
+	player is sneaking
+	set {_powers::*} to "piglin", "skeleton", "wither", "creeper", "zombie" and "dragon"
+	
+	set {_power} to metadata tag "power" of player ? "dragon"
+	
+	set {_position} to 1
+	loop {_powers::*}:
+		if loop-value is {_power}:
+			exit loop
+		add 1 to {_position}
+		
+	if {_position} is size of {_powers::*}:
+		set {_power} to {_powers::1}
+	else:
+		set {_power} to {_powers::%{_position} + 1%}
+	set metadata tag "power" of player to {_power}
+
+	if {_power} is "piglin":
+		play sound "minecraft:entity.piglin.ambient" at player
+	else if {_power} is "skeleton":
+		play sound "minecraft:entity.skeleton.ambient" at player
+	else if {_power} is "wither":
+		play sound "minecraft:entity.wither_skeleton.ambient" at player
+	else if {_power} is "creeper":
+		play sound "minecraft:entity.creeper.primed" at player
+	else if {_power} is "zombie":
+		play sound "minecraft:entity.zombie.ambient" at player
+		
+	else:
+		play sound "minecraft:entity.ender_dragon.flap" at player
+		
+		
+	
+
+on damage of player:
+	victim's helmet is a dragon head
+	metadata tag "power" of victim is "creeper"
+	event-damagecause is entity explosion
+	if item cooldown of attacker's helmet for attacker > 0 seconds:
+		exit
+	set item cooldown of attacker's helmet for attacker to 3 seconds
+	cancel event
+	
+on damage of player:
+	victim's helmet is a dragon head
+	metadata tag "power" of victim is "skeleton"
+	event-damagecause is projectile
+	if item cooldown of attacker's helmet for attacker > 0 seconds:
+		exit
+	set item cooldown of attacker's helmet for attacker to 3 seconds
+	play sound "minecraft:entity.skeleton.converted_to_stray" at volume 0.5 at attacker
+	
+	cancel event
+	
+on damage of player:
+	type of attacker's helmet is dragon head
+	metadata tag "power" of attacker is "piglin"
+	type of victim's helmet isn't dragon head
+	if item cooldown for attacker's helmet for attacker > 0 seconds:
+		exit
+	set item cooldown of attacker's helmet for attacker to 10 seconds
+	play sound "minecraft:entity.piglin.angry" at volume 0.5 at attacker
+	apply strength tier 1 to attacker for 5 seconds replacing existing effect
+
+on damage of player:
+	attacker's helmet is a dragon head
+	metadata tag "power" of attacker is "wither"
+	victim's helmet isn't a dragon head
+	
+	if item cooldown of attacker's helmet for attacker > 0 seconds:
+		exit
+	set item cooldown of attacker's helmet for attacker to 10 seconds
+	play sound "minecraft:entity.wither.ambient" at volume 0.5 at attacker
+	
+	apply wither to victim for 10 seconds replacing existing effect
+
+on food level change:
+	if player's helmet is a dragon head:
+		cancel event
+
+on left click:
+	player's helmet is a dragon head
+	metadata tag "power" of player is "dragon"
+	if item cooldown for player's helmet for player > 0 seconds:
+		exit
+	set item cooldown of player's helmet for player to 20 seconds
+	apply resistance 5 to player for 10 seconds replacing existing effect
+	play sound "minecraft:entity.ender_dragon.growl" at player
+on damage of player:
+	attacker's helmet is a dragon head
+	metadata tag "power" of attacker is "zombie"
+	victim's helmet isn't a dragon head
+	
+	if item cooldown for attacker's helmet for attacker > 0 seconds:
+		exit
+	set item cooldown of attacker's helmet for attacker to 15 seconds
+	play sound "minecraft:entity.zombie.infect" at volume 0.5 at attacker
+	apply hunger tier 2 to victim for 10 seconds replacing existing effect
+	
