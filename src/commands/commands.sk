@@ -1,0 +1,14 @@
+command /commands [<integer>]:
+	usage: &c/commands <page number>
+	trigger:
+		
+		send "", "&e&lCommands&r&e:"
+		loop script commands:
+			if {_commands::*} contains loop-value:
+				continue
+			if permission of command loop-value isn't "":
+				continue
+			add loop-value to {_commands::*}
+
+		loop sorted {_commands::*}:
+			send " - %loop-value%"

@@ -1,0 +1,5 @@
+command /list:
+	aliases: /players
+	trigger:
+		set {_p::*} to players where [input's gamemode isn't spectator]
+		send "Player List &a(%size of {_p::*}%): ", and "&7 %{_p::*} ? "None"%" and ""
