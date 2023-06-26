@@ -1,23 +1,39 @@
 options:
 	spawn: location(0.5, -63, 0.5, world("world"), 90, 0)
 	cherry planks = minecraft:cherry_planks
-	
-on respawn:
-	if bed of player isn't set:
-		teleport player to {@spawn}
+
+on chat:
+	cancel event
+	if message contains "[item]":
+		set {_t} to text component from "&7%player%: &7[&e%amount of held item in player's inventory%x&3 of %type of held item%&7]"
+		set hover event of {_t} to a new hover event showing player's tool
+		send component {_t} to players
+		exit
+	if message contains "[inv]":
+		set {_t} to text component from "&7%player%: &7[&eInventory Snapshot&7]"
+		set {_items::*} to tag "Inventory" of nbt of player
+		set {_items} to "%{_items::*}%"
+		replace "and " with "," in {_items}
+		set hover event of {_t} to a new hover event showing bundle with nbt of "{Items:[%{_items}%]}"
+		send component {_t} to players
+		exit
+	if metadata tag "staffchat" of player is true:
+		send "&a%player%: &f%message%" to players where [input has permission "staff.staffchat"]
+		exit
+	send "&7%player%: &f%message%" to players
 	
 on join:
-
-#
-# initialize tab formats
-#
+	
+	#
+	# initialize tab formats
+	#
 	set player's tablist header to "%nl%&lVOID SURVIVAL%nl%"	
 	set player's tablist footer to "%nl%leap.minehut.gg%nl%"	
 	set player's tablist name to "%player% %fancy ping for player%"
 
-#
-# new player - basic kit
-#	
+	#
+	# new player - basic kit
+	#	
 	if player has played before:
 		set {_w} to "<##44e971>&lWELCOME BACK"
 	else:
@@ -26,9 +42,9 @@ on join:
 		new basic kit for player
 		set {_w} to "<##44e971>&lWELCOME"
 		
-#
-# Welcome animation
-#
+	#
+	# Welcome animation
+	#
 	wait 10 ticks
 	set {_s::*} to split player's name at ""
 	send title {_w} for 2 seconds with fadein 1 second
@@ -40,9 +56,9 @@ on join:
 		play sound "minecraft:block.deepslate_tiles.step" at pitch (1 / loop-value-1) to player
 		wait 3 ticks
 
-#
-# Sound effects
-#
+	#
+	# Sound effects
+	#
 	play sound "minecraft:block.stone.place" to player
 	play sound "minecraft:entity.experience_orb.pickup" at volume 0.5 to player
 	wait 0.85 seconds
@@ -69,6 +85,10 @@ on death of player:
 	
 	send action bar "%{_dm}%" to players where [input's gamemode isn't spectator]
 
+	
+on respawn:
+	if bed of player isn't set:
+		teleport player to {@spawn}
 
 every 10 seconds:
 	loop players:	
