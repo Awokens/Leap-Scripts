@@ -1,97 +1,76 @@
-
 at 21:00 in world "world":
+
+	add 1 to {wardenTime}
+
+	if {wardenTime} < 14:
+		exit
+	
 	kill wardens
-	set {wardenSession} to true
-	execute command "stopsound @a"
-	apply darkness to players for 40 seconds
+	set {wardenTime} to 0
+	set gamerule announceAdvancements of world "world" to false
+	set gamerule announceAdvancements of world "world_nether" to false
+	set gamerule announceAdvancements of world "world_the_end" to false
+	execute console command "stopsound @a"
+	apply darkness to players for 20 seconds
 	play sound "minecraft:music.overworld.deep_dark" at volume 0.5 to players
 	wait 5 seconds
-	set {_s::*} to "&7Beneath the crescent moon's shadowed &fembrace,", "&7Whispers emerge, unveiling the &kwarden's&r&7 grace.", "&7In night's realm, a presence shall &farise,", "&7Veiled in mystery, catching all by &fsurprise.", "&7Prepare your shield, for chaos is &fnear," and "&7The reckoning looms, the &fend &k&7drawing clear."
-	send "" to players
-	loop {_s::*}:
-		send loop-value to players
-		play sound "minecraft:ui.cartography_table.take_result" at volume 0.3 to players
-		wait 5 seconds
-	send "" to players
-	set {wardenSession} to false
-	
-	set {_life} to now
-	spawn warden at block above random element out of players
-	set {_last} to last spawned warden
-	while {_last} is alive:
-		if difference between {_life} and now > 5 minutes:
-			kill {_last}
-			execute command "stopsound @a"
-		if {_last}'s y-coord < -64:
-			push {_last} upwards at speed 1
-			show huge explosion at {_last}
-			teleport {_last} to block above random element out of players
-		wait 1 second
 
-on death of player:
+	set {_s::*} to "&ffortnight's eve&7, the &f&kwarden&r&7 guards", "&7the &fgate&7 where mystery spawns." and "&fDon &7the &fthird eye&7, ascend to the sky"
+	loop {_s::*}:
+		send title "" with subtitle loop-value to players for 1 second with fadein 1 second and fade out 1 second
+		play sound "minecraft:entity.warden.heartbeat" at volume 0.5 to players
+		play sound "minecraft:ui.cartography_table.take_result" at volume 0.2 to players
+		wait 4 seconds
+		
+	spawn warden at block above random element out of players
+	set {_warden} to last spawned warden
+	set {_lifespan} to now
+	set max health of {_warden} to 1500
+	set health of {_warden} to 1500
+	set gamerule announceAdvancements of world "world" to true
+	set gamerule announceAdvancements of world "world_nether" to true
+	set gamerule announceAdvancements of world "world_the_end" to true
+	set metadata tag "lastAttack" of {_warden} to now
+
+	while {_warden} is alive:
+		wait 1 second
+		if difference between {_lifespan} and now > 15 minutes:
+			kill wardens
+			exit loop
+		if block below {_warden} is bedrock:
+			teleport {_warden} to block above (random element out of players)
+			play sound "entity.enderman.teleport" at {_warden}
+		set {_last} to metadata tag "lastAttack" of {_warden} # initialize
+		difference between {_last} and now >= 10 seconds # condition
+
+		teleport {_warden} to block above (random element out of players)
+		play sound "entity.enderman.teleport" at {_warden}
+
+on target:
+	if event-entity is a mob:
+		if block below target is bedrock:
+			cancel event
+
+on damage of warden:
+	cancel event if event-damagecause is void
+
+on damage of player:
+	set metadata tag "lastAttack" of attacker to now if attacker is a warden
+
+	event-damagecause is void
 	victim's helmet is a eye of ender
 	last spawned warden is alive
-	
-	if victim's y-coord < -64:
-		set metadata tag "end" of victim to true
+
+	set victim's helmet to air
+	teleport victim to location(0.5, 250, 0.5, world("world_the_end"))
+	apply slow falling to victim for 25 seconds
+	apply darkness to victim for 15 seconds
+
+	play sound "minecraft:entity.warden.heartbeat" to victim
+	play sound "minecraft:entity.ender_eye.death" to victim
+	play sound "minecraft:music.end" to victim
 
 on spawn of warden:
 	cancel event if spawn reason isn't customized
-
-on respawn:
-	wait 5 tick
-	teleport player to location(0.5, 250, 0.5, world("world_the_end"))
-	if player's helmet is a eye of ender:
-		set player's helmet to air
-	metadata tag "end" of player is true
-	apply slow falling to player for 25 seconds
-	apply darkness to player for 15 seconds
-	set metadata tag "end" of player to false
-	play sound "minecraft:entity.warden.heartbeat" to player
-	play sound "minecraft:entity.ender_eye.death" to player
-	play sound "minecraft:music.end" to player
-
-on chat:
-	cancel event
-	if {wardenSession} is true:
-		exit
-	if message contains "[item]":
-		set {_t} to text component from "&7%player%: &7[&e%amount of held item in player's inventory%x&3 of %type of held item%&7]"
-		set hover event of {_t} to a new hover event showing player's tool
-		send component {_t} to players
-		exit
-	if message contains "[inv]":
-		set {_t} to text component from "&7%player%: &7[&eInventory Snapshot&7]"
-		set {_items::*} to tag "Inventory" of nbt of player
-		set {_items} to "%{_items::*}%"
-		replace "and " with "," in {_items}
-		set hover event of {_t} to a new hover event showing bundle with nbt of "{Items:[%{_items}%]}"
-		send component {_t} to players
-		exit
-	if metadata tag "staffchat" of player is true:
-		send "&a%player%: &f%message%" to players where [input has permission "staff.staffchat"]
-		exit
-	send "&7%player%: &f%message%" to players
-	
-on death of warden:
-	set {wardenSession} to true
-	set {_s::*} to "&7Warden falls, player prevails,", "&7But darkness &fhides&7, new tale &funveils."
-	set time in world("world") to 12:00
-	execute command "stopsound @a"
-	send "" to players
-	loop {_s::*}:
-		send loop-value to players
-		play sound "minecraft:ui.cartography_table.take_result" at volume 0.3 to players
-		wait 3 seconds
-	send "" to players
-
-	set {_s::*} to "%nl%&7For on that day, the warden's might ignites.","&7Secret way revealed, &fascend high and fly,", "&7In the &fclear sky&7, where secrets lie.", "&7Enter with &fcaution&7,&f danger&7 draws near,", "&7No return, for the &f&kEnd&7 is what you'll fear.", "&7In the realm's embrace, heed my plea,", "&7Enter not, for the &f&kEnd&7 it shall be.%nl%"
-	loop {_s::*}:
-		send loop-value to players
-		play sound "minecraft:ui.cartography_table.take_result" at volume 0.3 to players
-		wait 3 seconds
-	set {wardenSession} to false
-
-			
 		
 		
